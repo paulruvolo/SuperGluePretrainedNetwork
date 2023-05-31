@@ -49,6 +49,7 @@ import argparse
 import cv2
 import matplotlib.cm as cm
 import torch
+import time
 
 from models.matching import Matching
 from models.utils import (AverageTimer, VideoStreamer,
@@ -179,6 +180,7 @@ if __name__ == '__main__':
           '\tq: quit')
 
     timer = AverageTimer()
+    last_time = time.time()
 
     while True:
         frame, ret = vs.next_frame()
@@ -215,8 +217,10 @@ if __name__ == '__main__':
         out = make_matching_plot_fast(
             last_frame, frame, kpts0, kpts1, mkpts0, mkpts1, color, text,
             path=None, show_keypoints=opt.show_keypoints, small_text=small_text)
-
-        print("m", mkpts1.shape[0])
+        
+        if time.time() - last_time > 2.0:
+            last_time = time.time()
+            print("m", mkpts1.shape[0])
         if not opt.no_display:
             cv2.imshow('SuperGlue matches', out)
             key = chr(cv2.waitKey(1) & 0xFF)
