@@ -216,6 +216,7 @@ if __name__ == '__main__':
             last_frame, frame, kpts0, kpts1, mkpts0, mkpts1, color, text,
             path=None, show_keypoints=opt.show_keypoints, small_text=small_text)
 
+        print("m", mkpts1.shape[0])
         if not opt.no_display:
             cv2.imshow('SuperGlue matches', out)
             key = chr(cv2.waitKey(1) & 0xFF)
@@ -246,7 +247,7 @@ if __name__ == '__main__':
                 opt.show_keypoints = not opt.show_keypoints
 
         timer.update('viz')
-        timer.print()
+        #timer.print()
 
         if opt.output_dir is not None:
             #stem = 'matches_{:06}_{:06}'.format(last_image_id, vs.i-1)
